@@ -89,12 +89,12 @@ Save this file as well. Test that the config is okay by:
 If all is well then we need to restart the services so go aheda and:
 
 
-'''
+```
 sudo nginx -t
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
 sudo systemctl restart nginx
-'''
+```
 
 
 One last step is to ensure that you have allowed HTTP access via port 80 on your instance's security group section. Do the same for port 443 if your app is served over HTTPS.
