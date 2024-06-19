@@ -1,18 +1,18 @@
 # How to deploy a FastAPI app to AWS EC2 server
 
-'''
+```
 pip install fastapi uvicorn gunicorn psycopg2-binary
-'''
+```
 
 
-'''
+```
 sudo nano /etc/systemd/system/gunicorn.socket
-''''
+```
 
 Add the following code to it:
 
 
-'''
+```
 [Unit]
 Description=gunicorn socket
 
@@ -21,21 +21,17 @@ ListenStream=/run/gunicorn.sock
 
 [Install]
 WantedBy=sockets.target
-'''
-
+```
 
 Save and close that file. Next we create a service file:
 
-
-'''
+```
 sudo nano /etc/systemd/system/gunicorn.service
-'''
-
+```
 
 Add the following code to it:
 
-
-'''
+```
 [Unit]
 Description=gunicorn daemon
 Requires=gunicorn.socket
@@ -54,34 +50,31 @@ ExecStart=/home/ubuntu/apiv1/env/bin/gunicorn \
 
 [Install]
 WantedBy=multi-user.target
-'''
+```
 
 Save and close as well.
 Next start the Gunicorn socket:
 
-
-'''
+```
 sudo systemctl start gunicorn.socket
-'''
+```
 
 Then enable it by:
 
-'''
+```
 sudo systemctl enable gunicorn.socket
-'''
-
+```
 
 Now that Gunicorn is set up, next we’ll configure Nginx to pass traffic to the process.
 Start by creating and opening a new server block in Nginx’s sites-available directory:
 
-
-'''
+```
 sudo nano /etc/nginx/sites-enabled/api
-'''
+```
 
 Add the following lines to it:
 
-'''
+```
 server {
     listen 80;
     server_name server_domain_or_IP;
@@ -89,7 +82,7 @@ server {
         proxy_pass http://unix:/run/gunicorn.sock;
     }
 }
-'''
+```
 
 Save this file as well. Test that the config is okay by:
 
